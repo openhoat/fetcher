@@ -1,0 +1,16 @@
+name: install
+description: Install specific version of Deno
+
+inputs:
+  deno-version:
+    description: Deno version
+    default: v1.x
+    required: false
+
+runs:
+  using: composite
+  steps:
+    - name: Install Deno version ${{ inputs.deno-version }}
+      uses: denoland/setup-deno@v1
+      with:
+        deno-version: ${{ inputs.deno-version }}
