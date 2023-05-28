@@ -10,7 +10,8 @@ Decorators for a more friendly fetch.
 
 ## Getting started
 
-Thanks to provided decorators, use a fetch-like with extra features: baseURL, query params, timeout, json response…
+Thanks to provided decorators, use a fetch-like with extra features: baseURL,
+query params, timeout, json response…
 
 ```typescript
 import { decoratedFetcher } from 'https://deno.land/x/fetcher/mod.ts'
