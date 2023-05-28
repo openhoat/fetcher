@@ -4,13 +4,13 @@ type Data = { name: string; username: string }
 
 const email = 'Lucio_Hettinger@annie.ca'
 
-const fetcher = decoratedFetcher<Data[]>()
+const baseURL = 'https://jsonplaceholder.typicode.com'
+const fetcher = decoratedFetcher<Data[]>({ baseURL })
 try {
-  const baseURL = 'https://jsonplaceholder.typicode.com'
   console.log('Fetching /users from jsonplaceholder…')
   const data: Data[] = await fetcher.fetch(
     '/users',
-    { baseURL, query: { email }, timeout: 5000 },
+    { query: { email }, timeout: 5000 },
   )
   const { name, username } = data[0]
   console.log('Success!')
