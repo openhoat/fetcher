@@ -10,7 +10,41 @@ Decorators for a more friendly fetch.
 
 ## Getting started
 
-> TODO
+Thanks to provided decorators, use a fetch-like with extra features: baseURL, query params, timeout, json response…
+
+```typescript
+import { decoratedFetcher } from 'https://deno.land/x/fetcher/mod.ts'
+
+type Data = { name: string; username: string }
+
+const email = 'Lucio_Hettinger@annie.ca'
+
+const baseURL = 'https://jsonplaceholder.typicode.com'
+const fetcher = decoratedFetcher<Data[]>()
+try {
+  console.log('Fetching /users from jsonplaceholder…')
+  const data: Data[] = await fetcher.fetch(
+    '/users',
+    { baseURL, query: { email }, timeout: 5000 },
+  )
+  const { name, username } = data[0]
+  console.log('Success!')
+  console.log('Result:', { name, username })
+} catch (err) {
+  console.error(err)
+}
+```
+
+## Features
+
+- [x] Base URL
+- [x] Basic auth
+- [x] Bearer
+- [x] Defaults
+- [x] Error handling
+- [x] JSON response
+- [x] Query params
+- [x] Timeout
 
 ## License
 
