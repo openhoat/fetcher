@@ -30,13 +30,13 @@ describe('fetcher decorators', () => {
   })
   describe('withErrorHandling', () => {
     it('should return an object given requesting a json endpoint', async () => {
-      const fetcher = withErrorHandling({ fetch })
+      const fetcher = withErrorHandling()
       const response: Response = await fetcher.fetch(`${baseURL}/`)
       const data = await response.json()
       expect(data).toEqual({ foo: 'bar' })
     })
     it('should throw an error given requesting a not found resource', async () => {
-      const fetcher = withErrorHandling({ fetch })
+      const fetcher = withErrorHandling()
       let error: Error | undefined
       try {
         await fetcher.fetch(`${baseURL}/bad/resource/path`)
@@ -50,7 +50,7 @@ describe('fetcher decorators', () => {
       )
     })
     it('should throw an error given an internal error with text content', async () => {
-      const fetcher = withErrorHandling({ fetch })
+      const fetcher = withErrorHandling()
       let error: Error | undefined
       try {
         await fetcher.fetch(`${baseURL}/error/text`)

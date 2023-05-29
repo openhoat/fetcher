@@ -29,7 +29,7 @@ describe('fetcher decorators', () => {
   })
   describe('withBaseURL', () => {
     it('should return an object given requesting a json endpoint with a base URL', async () => {
-      const fetcher = withBaseURL(withFetcher(fetch))
+      const fetcher = withBaseURL()
       const response = await fetcher.fetch(
         '/',
         { baseURL },

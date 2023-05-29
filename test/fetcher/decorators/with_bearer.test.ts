@@ -33,7 +33,7 @@ describe('fetcher decorators', () => {
   })
   describe('withBearer', () => {
     it('should return an object given valid bearer', async () => {
-      const fetcher = withBearer({ fetch })
+      const fetcher = withBearer()
       response = await fetcher.fetch(`${baseURL}/bearer`, {
         token: 'mybearertoken',
       })
@@ -42,14 +42,14 @@ describe('fetcher decorators', () => {
       expect(data).toEqual({ foo: 'bar' })
     })
     it('should throw an error given no bearer', async () => {
-      const fetcher = withBearer({ fetch })
+      const fetcher = withBearer()
       response = await fetcher.fetch(`${baseURL}/bearer`)
       expect(response.ok).toBe(false)
       expect(response.status).toBe(401)
       expect(response.statusText).toEqual('Unauthorized')
     })
     it('should throw an error given not valid bearer', async () => {
-      const fetcher = withBearer({ fetch })
+      const fetcher = withBearer()
       response = await fetcher.fetch(`${baseURL}/bearer`, {
         token: 'badtoken',
       })

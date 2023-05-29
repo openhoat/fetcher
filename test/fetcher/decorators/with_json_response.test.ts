@@ -29,12 +29,12 @@ describe('fetcher decorators', () => {
   })
   describe('withJsonResponse', () => {
     it('should return an object given requesting a json endpoint', async () => {
-      const fetcher = withJsonResponse({ fetch })
+      const fetcher = withJsonResponse()
       const data = await fetcher.fetch(`${baseURL}/`)
       expect(data).toEqual({ foo: 'bar' })
     })
     it('should throw an error given requesting a not json endpoint', async () => {
-      const fetcher = withJsonResponse({ fetch })
+      const fetcher = withJsonResponse()
       let error: Error | undefined
       try {
         await fetcher.fetch(`${baseURL}/text`)

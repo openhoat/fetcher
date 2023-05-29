@@ -33,7 +33,7 @@ describe('fetcher decorators', () => {
   })
   describe('withBasicAuth', () => {
     it('should return an object given valid basic auth credentials', async () => {
-      const fetcher = withBasicAuth({ fetch })
+      const fetcher = withBasicAuth()
       response = await fetcher.fetch(`${baseURL}/basicauth`, {
         username: 'john',
         password: 'password',
@@ -43,14 +43,14 @@ describe('fetcher decorators', () => {
       expect(data).toEqual({ foo: 'bar' })
     })
     it('should throw an error given no basic auth credentials', async () => {
-      const fetcher = withBasicAuth({ fetch })
+      const fetcher = withBasicAuth()
       response = await fetcher.fetch(`${baseURL}/basicauth`)
       expect(response.ok).toBe(false)
       expect(response.status).toBe(401)
       expect(response.statusText).toEqual('Unauthorized')
     })
     it('should throw an error given not valid basic auth credentials', async () => {
-      const fetcher = withBasicAuth({ fetch })
+      const fetcher = withBasicAuth()
       response = await fetcher.fetch(`${baseURL}/basicauth`, {
         username: 'bill',
         password: 'badpassword',

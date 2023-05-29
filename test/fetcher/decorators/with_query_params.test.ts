@@ -29,14 +29,14 @@ describe('fetcher decorators', () => {
   })
   describe('withQueryParams', () => {
     it('should return an empty object given no query param', async () => {
-      const fetcher = withQueryParams({ fetch })
+      const fetcher = withQueryParams()
       const response: Response = await fetcher.fetch(`${baseURL}/query`)
       expect(response.ok).toBe(true)
       const data = await response.json()
       expect(data).toEqual({})
     })
     it('should return an object given query params', async () => {
-      const fetcher = withQueryParams({ fetch })
+      const fetcher = withQueryParams()
       const response: Response = await fetcher.fetch(`${baseURL}/query`, {
         query: { foo: 'bar' },
       })

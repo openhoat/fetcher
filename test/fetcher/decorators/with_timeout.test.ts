@@ -29,14 +29,14 @@ describe('fetcher decorators', () => {
   })
   describe('withTimeout', () => {
     it('should return an object given default timeout', async () => {
-      const fetcher = withTimeout({ fetch })
+      const fetcher = withTimeout()
       const response: Response = await fetcher.fetch(`${baseURL}/timeout/500`)
       expect(response.ok).toBe(true)
       const data = await response.json()
       expect(data).toEqual({ foo: 'bar' })
     })
     it('should return an object given a timeout of 1000ms', async () => {
-      const fetcher = withTimeout({ fetch })
+      const fetcher = withTimeout()
       const response: Response = await fetcher.fetch(`${baseURL}/timeout/500`, {
         timeout: 1000,
       })
@@ -45,7 +45,7 @@ describe('fetcher decorators', () => {
       expect(data).toEqual({ foo: 'bar' })
     })
     it('should throw an error given requesting timedout', async () => {
-      const fetcher = withTimeout({ fetch })
+      const fetcher = withTimeout()
       let error: Error | undefined
       try {
         await fetcher.fetch(`${baseURL}/timeout/500`, { timeout: 200 })
