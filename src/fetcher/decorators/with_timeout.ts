@@ -1,14 +1,14 @@
-import type { ResponseFetcher } from '../../types/utils/fetcher.d.ts'
+import type { FetchURL, ResponseFetcher } from '../../types/fetcher.d.ts'
 
 export type TimeoutOptions = {
   timeout?: number
 }
 
 export const withTimeout = <O extends RequestInit>(
-  fetcher: ResponseFetcher<O>,
+  fetcher?: ResponseFetcher<O>,
 ): ResponseFetcher<O & TimeoutOptions> => ({
   fetch: async (
-    url: string,
+    url: FetchURL,
     options?: O & TimeoutOptions,
   ) => {
     const timeout = options?.timeout ?? 5000
@@ -18,7 +18,7 @@ export const withTimeout = <O extends RequestInit>(
       isTimedOut = true
     }, timeout)
     try {
-      const response = await fetcher.fetch(
+      const response = await (fetcher?.fetch ?? fetch)(
         url,
         { ...options, signal: controller.signal } as O,
       )

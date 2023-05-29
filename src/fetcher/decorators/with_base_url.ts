@@ -1,17 +1,15 @@
-import type { ResponseFetcher } from '../../types/utils/fetcher.d.ts'
+import type { ResponseFetcher } from '../../types/fetcher.d.ts'
+import { toURL } from '../../utils/helper.ts'
 
 export type BaseURLOptions = {
   baseURL?: string
 }
 
 export const withBaseURL = <O extends RequestInit>(
-  fetcher: ResponseFetcher<O>,
+  fetcher?: ResponseFetcher<O>,
 ): ResponseFetcher<O & BaseURLOptions> => ({
   fetch: (
-    url: string,
+    url: URL | Request | string,
     options?: O & BaseURLOptions,
-  ) => {
-    const finalURL = (new URL(url, options?.baseURL)).toString()
-    return fetcher.fetch(finalURL, options)
-  },
+  ) => (fetcher?.fetch ?? fetch)(toURL(url, options?.baseURL), options),
 })

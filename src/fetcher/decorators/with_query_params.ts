@@ -1,4 +1,5 @@
-import type { ResponseFetcher } from '../../types/utils/fetcher.d.ts'
+import type { FetchURL, ResponseFetcher } from '../../types/fetcher.d.ts'
+import { toURL } from '../../utils/helper.ts'
 
 export type QueryParams = Record<string, string>
 
@@ -6,23 +7,23 @@ export type QueryParamsOptions = {
   query?: QueryParams
 }
 
-export const toQueryParamsURL = (url: string, query: QueryParams) => {
-  const queryParamsURL = new URL(url)
+export const toQueryParamsURL = (url: FetchURL, query: QueryParams) => {
+  const queryParamsURL = toURL(url)
   Object.entries(query).forEach(([name, value]) => {
     queryParamsURL.searchParams.set(name, value)
   })
-  return queryParamsURL.toString()
+  return queryParamsURL
 }
 
 export const withQueryParams = <O extends RequestInit>(
-  fetcher: ResponseFetcher<O>,
+  fetcher?: ResponseFetcher<O>,
 ): ResponseFetcher<O & QueryParamsOptions> => ({
   fetch: (
-    url: string,
+    url: FetchURL,
     options?: O & QueryParamsOptions,
   ) => {
     const query = options?.query
     const queryParamsURL = query ? toQueryParamsURL(url, query) : url
-    return fetcher.fetch(queryParamsURL, options)
+    return (fetcher?.fetch ?? fetch)(queryParamsURL, options)
   },
 })
