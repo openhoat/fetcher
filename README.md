@@ -38,14 +38,14 @@ try {
 
 ## Features
 
-- [x] [Base URL](./mod.ts?s=withBaseURL)
-- [x] [Basic auth](./mod.ts?s=withBasicAuth)
-- [x] [Bearer](./mod.ts?s=withBearer)
-- [x] [Defaults](./mod.ts?s=withDefaults)
-- [x] [Error handling](./mod.ts?s=withErrorHandling)
-- [x] [JSON response & payload](./mod.ts?s=withJsonResponse)
-- [x] [Query params](./mod.ts?s=withQueryParams)
-- [x] [Timeout](./mod.ts?s=withTimeout)
+- [x] [Base URL](https://deno.land/x/fetcher/mod.ts?s=withBaseURL)
+- [x] [Basic auth](https://deno.land/x/fetcher/mod.ts?s=withBasicAuth)
+- [x] [Bearer](https://deno.land/x/fetcher/mod.ts?s=withBearer)
+- [x] [Defaults](https://deno.land/x/fetcher/mod.ts?s=withDefaults)
+- [x] [Error handling](https://deno.land/x/fetcher/mod.ts?s=withErrorHandling)
+- [x] [JSON response & payload](https://deno.land/x/fetcher/mod.ts?s=withJsonResponse)
+- [x] [Query params](https://deno.land/x/fetcher/mod.ts?s=withQueryParams)
+- [x] [Timeout](https://deno.land/x/fetcher/mod.ts?s=withTimeout)
 
 ## Usecases
 
