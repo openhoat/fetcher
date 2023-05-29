@@ -10,6 +10,7 @@
     "cover:html": "deno task cover && genhtml -o dist/coverage/html dist/coverage/coverage.lcov",
     "cover:open": "xdg-open dist/coverage/html/index.html",
     "demo:sample1": "deno run --allow-net etc/demo/sample1.ts",
+    "demo:sample2": "deno run --allow-net etc/demo/sample2.ts",
     "format": "deno fmt --check",
     "lint": "deno lint",
     "sonar:scan": "./bin/sonar-scan.sh",
