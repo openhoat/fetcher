@@ -9,7 +9,6 @@ import {
   run,
 } from '../../deps/x/tincan.ts'
 import { withBaseURL } from '../../../src/fetcher/decorators/with_base_url.ts'
-import { withFetcher } from '../../../src/fetcher/decorators/with_fetcher.ts'
 import { FakeWebServer } from '../../fake_web_server.ts'
 import { toConnectableHostname } from '../../utils/helper.ts'
 
