@@ -38,14 +38,14 @@ try {
 
 ## Features
 
-- [x] [Base URL](/mod.ts?s=withBaseURL)
-- [x] [Basic auth](/mod.ts?s=withBasicAuth)
-- [x] [Bearer](/mod.ts?s=withBearer)
-- [x] [Defaults](/mod.ts?s=withDefaults)
-- [x] [Error handling](/mod.ts?s=withErrorHandling)
-- [x] [JSON response & payload](/mod.ts?s=withJsonResponse)
-- [x] [Query params](/mod.ts?s=withQueryParams)
-- [x] [Timeout](/mod.ts?s=withTimeout)
+- [x] [Base URL](./mod.ts?s=withBaseURL)
+- [x] [Basic auth](./mod.ts?s=withBasicAuth)
+- [x] [Bearer](./mod.ts?s=withBearer)
+- [x] [Defaults](./mod.ts?s=withDefaults)
+- [x] [Error handling](./mod.ts?s=withErrorHandling)
+- [x] [JSON response & payload](./mod.ts?s=withJsonResponse)
+- [x] [Query params](./mod.ts?s=withQueryParams)
+- [x] [Timeout](./mod.ts?s=withTimeout)
 
 ## Usecases
 
