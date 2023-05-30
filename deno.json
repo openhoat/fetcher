@@ -4,17 +4,6 @@
     "singleQuote": true
   },
   "tasks": {
-    "clean": "rm -rf dist",
-    "check": "deno check mod.ts",
-    "cover": "deno task clean && deno test -A --coverage=dist/coverage && deno coverage --exclude='deps/' --exclude='test/' dist/coverage --lcov --output=dist/coverage/coverage.lcov",
-    "cover:html": "deno task cover && genhtml -o dist/coverage/html dist/coverage/coverage.lcov",
-    "cover:open": "xdg-open dist/coverage/html/index.html",
-    "demo:sample1": "deno run --allow-net etc/demo/sample1.ts",
-    "demo:sample2": "deno run --allow-net etc/demo/sample2.ts",
-    "format": "deno fmt --check",
-    "lint": "deno lint",
-    "sonar:scan": "./bin/sonar-scan.sh",
-    "test": "deno test -A",
-    "validate": "deno task check && deno task format && deno lint && deno task cover"
+    "install": "deno install --root .deno -fqAn vr https://deno.land/x/velociraptor@1.5.0/cli.ts && vr install"
   }
 }

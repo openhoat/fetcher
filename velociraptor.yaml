@@ -1,0 +1,72 @@
+scripts:
+  clean:
+    desc: Clean the dist folder.
+    cmd: .deno/bin/fs_cli rm dist
+  check:
+    desc: Check sources types.
+    cmd: deno check mod.ts
+  cover:
+    desc: Run the tests coverage.
+    cmd:
+      - .deno/bin/vr clean
+      - .deno/bin/vr test --coverage=dist/coverage
+      - deno coverage --exclude='deps/' --exclude='test/' dist/coverage --lcov --output=dist/coverage/coverage.lcov
+  'cover:html':
+    desc: Run the tests coverage with HTML report.
+    cmd:
+      - .deno/bin/vr cover
+      - genhtml -o dist/coverage/html dist/coverage/coverage.lcov
+  'cover:open':
+    desc: Open the HTML coverage report.
+    cmd: xdg-open dist/coverage/html/index.html
+  'demo:sample1':
+    desc: Run sample1 demo script.
+    cmd: deno run --allow-net etc/demo/sample1.ts
+  'demo:sample2':
+    desc: Run sample2 demo script.
+    cmd: deno run --allow-net etc/demo/sample2.ts
+  format:
+    desc: Check sources format.
+    cmd: deno fmt --check
+  'git:commitlint':
+    desc: Checks commit messages format.
+    cmd: npx commitlint -e ${GIT_ARGS[1]}
+    gitHook: commit-msg
+  'git:pre-commit':
+    desc: Checks sources before commit.
+    cmd:
+      - .deno/bin/vr lint
+      - .deno/bin/vr format
+    gitHook: pre-commit
+  install:
+    desc: Install all the tools used in the project.
+    cmd:
+      - deno install --root .deno --unstable --allow-read --allow-write --allow-env --allow-run -qfn fs_cli https://deno.land/x/fs_cli@v1.0.0/cli.ts
+      - deno install --root .deno --allow-run --allow-net -qfn dpx https://deno.land/x/dpx@v2.0.0/cli.ts
+  lint:
+    desc: Lint the project sources.
+    cmd: deno lint
+  'sonar:scan':
+    desc: Run a SonarQube scan.
+    cmd:
+      - .deno/bin/vr cover
+      - >
+        docker run --rm
+        -e SONAR_HOST_URL
+        -e SONAR_LOGIN
+        -e SONAR_SCANNER_OPTS="-Dsonar.projectBaseDir=${PWD} -Dsonar.working.directory=${PWD}/dist/sonar"
+        -v "${PWD}:${PWD}"
+        -u $(id -u "${USER}"):$(id -g "${USER}")
+        sonarsource/sonar-scanner-cli
+  test:
+    desc: Run the tests.
+    cmd: deno test ./test
+    allow:
+      - net
+      - env
+  validate:
+    cmd:
+      - .deno/bin/vr check
+      - .deno/bin/vr format
+      - .deno/bin/vr lint
+      - .deno/bin/vr cover

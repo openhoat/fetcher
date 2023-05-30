@@ -14,3 +14,5 @@ runs:
       uses: denoland/setup-deno@v1
       with:
         deno-version: ${{ inputs.deno-version }}
+    - name: Install tools
+      run: deno task install
