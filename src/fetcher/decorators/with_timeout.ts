@@ -4,6 +4,8 @@ export type TimeoutOptions = {
   timeout?: number
 }
 
+export const DEFAULT_TIMEOUT = 5000
+
 export const withTimeout = <O extends RequestInit>(
   fetcher?: ResponseFetcher<O>,
 ): ResponseFetcher<O & TimeoutOptions> => ({
@@ -11,7 +13,7 @@ export const withTimeout = <O extends RequestInit>(
     url: FetchURL,
     options?: O & TimeoutOptions,
   ) => {
-    const timeout = options?.timeout ?? 5000
+    const timeout = options?.timeout ?? DEFAULT_TIMEOUT
     const controller = new AbortController()
     let isTimedOut: true | undefined
     const timer = setTimeout(() => {

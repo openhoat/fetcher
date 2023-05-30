@@ -10,6 +10,8 @@ export const isJsonResponse = (response: Response) =>
     'application/json',
   )
 
+export const JSON_MIME_TYPE = 'application/json'
+
 export type JsonOptions = { json?: JSONValue }
 
 export const withJsonResponse = <O extends RequestInit>(
@@ -17,11 +19,11 @@ export const withJsonResponse = <O extends RequestInit>(
 ): JsonFetcher<O & JsonOptions> => ({
   fetch: async <T>(url: FetchURL, options?: O & JsonOptions) => {
     const headers: HeadersInit = new Headers(options?.headers)
-    headers.append('Accept', 'application/json')
+    headers.append('Accept', JSON_MIME_TYPE)
     let body = options?.body
     if (typeof options?.json !== 'undefined') {
       body = JSON.stringify(options.json)
-      headers.append('Content-Type', 'application/json')
+      headers.append('Content-Type', JSON_MIME_TYPE)
     }
     let errorResponse: undefined | Response
     try {
