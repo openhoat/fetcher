@@ -63,5 +63,6 @@ export class FakeWebServer extends WebServer {
         }
         return { foo: 'bar' }
       })
+      .post('/json', (req) => req.json())
   }
 }

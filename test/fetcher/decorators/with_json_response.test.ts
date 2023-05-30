@@ -44,6 +44,14 @@ describe('fetcher decorators', () => {
       expect(error).toBeInstanceOf(Error)
       expect(error?.message).toEqual('Response is not JSON')
     })
+    it('should post a json payload', async () => {
+      const fetcher = withJsonResponse()
+      const data = await fetcher.fetch(`${baseURL}/json`, {
+        method: 'POST',
+        json: { foo: 'bar' },
+      })
+      expect(data).toEqual({ foo: 'bar' })
+    })
   })
 })
 
