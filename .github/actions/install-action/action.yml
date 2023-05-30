@@ -15,4 +15,5 @@ runs:
       with:
         deno-version: ${{ inputs.deno-version }}
     - name: Install tools
+      shell: bash
       run: deno task install
