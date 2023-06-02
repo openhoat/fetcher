@@ -1,33 +1,53 @@
 scripts:
-  clean:
-    desc: Clean the dist folder.
-    cmd: .deno/bin/fs_cli rm dist
   check:
     desc: Check sources types.
     cmd: deno check mod.ts
+  "check:watch":
+    desc: Check sources types in watch mode.
+    cmd: deno check mod.ts
+    watch: true
+  clean:
+    desc: Clean the dist folder.
+    cmd: .deno/bin/fs_cli rm dist
+  'clean:coverage':
+    desc: Clean the dist/coverage folder.
+    cmd: .deno/bin/fs_cli rm dist/coverage
+  "clean:install":
+    desc: Clean the local deno install folder.
+    cmd: .deno/bin/fs_cli rm .deno/bin
   cover:
     desc: Run the tests coverage.
     cmd:
-      - .deno/bin/vr clean
+      - .deno/bin/vr clean:coverage
       - .deno/bin/vr test --coverage=dist/coverage
-      - deno coverage --exclude='deps/' --exclude='test/' dist/coverage --lcov --output=dist/coverage/coverage.lcov
+      - deno coverage --include="^file://${PWD}/lib/" --lcov --output=dist/coverage/coverage.lcov dist/coverage
   'cover:html':
     desc: Run the tests coverage with HTML report.
     cmd:
       - .deno/bin/vr cover
       - genhtml -o dist/coverage/html dist/coverage/coverage.lcov
-  'cover:open':
-    desc: Open the HTML coverage report.
-    cmd: xdg-open dist/coverage/html/index.html
+  "cover:open":
+    desc: Open the tests coverage HTML report.
+    cmd:
+      - .deno/bin/dpx opener dist/coverage/html/index.html
   'demo:sample1':
     desc: Run sample1 demo script.
     cmd: deno run --allow-net etc/demo/sample1.ts
   'demo:sample2':
     desc: Run sample2 demo script.
     cmd: deno run --allow-net etc/demo/sample2.ts
+  'demo:sample3':
+    desc: Run sample3 demo script.
+    cmd: deno run --allow-net etc/demo/sample3.ts
+  "deps:update":
+    desc: Update the Deno dependencies.
+    cmd: .deno/bin/udd $(find . \( -path "./demo/*" -or -path "./lib/*" \) -path "*/deps/*" -type f -name "*.ts")
   format:
-    desc: Check sources format.
+    desc: Check for project sources format.
     cmd: deno fmt --check
+  "format:fix":
+    desc: Format the project sources.
+    cmd: deno fmt
   'git:commitlint':
     desc: Checks commit messages format.
     cmd: npx commitlint -e ${GIT_ARGS[1]}
@@ -46,6 +66,10 @@ scripts:
   lint:
     desc: Lint the project sources.
     cmd: deno lint
+  "lint:watch":
+    desc: Lint the project sources in watch mode.
+    cmd: deno lint
+    watch: true
   'sonar:scan':
     desc: Run a SonarQube scan.
     cmd:
@@ -54,7 +78,7 @@ scripts:
         docker run --rm
         -e SONAR_HOST_URL
         -e SONAR_LOGIN
-        -e SONAR_SCANNER_OPTS="-Dsonar.projectBaseDir=${PWD} -Dsonar.working.directory=${PWD}/dist/sonar"
+        -e SONAR_SCANNER_OPTS="-Dsonar.projectBaseDir=${PWD} -Dsonar.working.directory=${PWD}/dist/sonar -Dsonar.projectVersion=$(echo "import version from './version.json' assert { type: 'json' };console.log(version)" | deno run - )"
         -v "${PWD}:${PWD}"
         -u $(id -u "${USER}"):$(id -g "${USER}")
         sonarsource/sonar-scanner-cli
@@ -63,10 +87,78 @@ scripts:
     cmd: deno test ./test
     allow:
       - net
+      - read
       - env
+  "test:watch":
+    desc: Run the tests in watch mode.
+    cmd: deno test ./test
+    allow:
+      - net
+      - read
+      - env
+    watch: true
   validate:
+    desc: Validate the project.
     cmd:
-      - .deno/bin/vr check
+      - .deno/bin/vr clean
       - .deno/bin/vr format
+      - .deno/bin/vr check
       - .deno/bin/vr lint
       - .deno/bin/vr cover
+  "validate:watch":
+    desc: Validate the project in watch mode.
+    cmd:
+      - .deno/bin/vr clean
+      - pll:
+          - .deno/bin/vr check:watch
+          - .deno/bin/vr lint:watch
+          - .deno/bin/vr test:watch
+  version:
+    desc: Get the current version.
+    cmd:
+      - |
+        (cat <<END
+        import version from './version.json' assert { type: 'json' }
+        console.log(version)
+        END
+        ) | deno run -
+  "version:init":
+    desc: Init version.json with the latest Git tag.
+    cmd:
+      - echo "\"$(git describe --tags --abbrev=0)\"" > version.json
+  "version:update:major":
+    desc: Increase patch version in version.json.
+    cmd:
+      - |
+        VERSION=$((cat <<END
+        import version from './version.json' assert { type: 'json' }
+        const [ major, minor, patch] = version.split('.')
+        const newVersion = [ Number(major) + 1, minor, patch ].join('.')
+        console.log(['', newVersion, ''].join('"'))
+        END
+        ) | deno run -); echo $VERSION > ./version.json
+      - .deno/bin/vr version
+  "version:update:minor":
+    desc: Increase patch version in version.json.
+    cmd:
+      - |
+        VERSION=$((cat <<END
+        import version from './version.json' assert { type: 'json' }
+        const [ major, minor, patch] = version.split('.')
+        const newVersion = [ major, Number(minor) + 1, patch ].join('.')
+        console.log(['', newVersion, ''].join('"'))
+        END
+        ) | deno run -); echo $VERSION > ./version.json
+      - .deno/bin/vr version
+  "version:update:patch":
+    desc: Increase patch version in version.json.
+    cmd:
+      - |
+        VERSION=$((cat <<END
+        import version from './version.json' assert { type: 'json' }
+        const [ major, minor, patch] = version.split('.')
+        const newVersion = [ major, minor, Number(patch) + 1 ].join('.')
+        console.log(['', newVersion, ''].join('"'))
+        END
+        ) | deno run -); echo $VERSION > ./version.json
+      - .deno/bin/vr version
