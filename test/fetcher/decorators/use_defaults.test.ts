@@ -1,4 +1,4 @@
-import type { WebServerable } from '../../deps/x/precise.ts'
+import type { WebServerable } from '../../../deps/test/x/precise.ts'
 import {
   afterEach,
   beforeAll,
@@ -7,10 +7,10 @@ import {
   expect,
   it,
   run,
-} from '../../deps/x/tincan.ts'
+} from '../../../deps/test/x/tincan.ts'
 import { FakeWebServer } from '../../fake_web_server.ts'
 import { toConnectableHostname } from '../../utils/helper.ts'
-import { withDefaults } from '../../../src/fetcher/decorators/with_defaults.ts'
+import { useDefaults } from '../../../lib/fetcher/decorators/use_defaults.ts'
 
 describe('fetcher decorators', () => {
   let fakeWebServer: WebServerable
@@ -29,7 +29,7 @@ describe('fetcher decorators', () => {
   })
   describe('withDefaults', () => {
     it('should return headers given defaults', async () => {
-      const fetcher = withDefaults({
+      const fetcher = useDefaults({
         headers: {
           'x-custom-header': 'mycustomvalue',
         },

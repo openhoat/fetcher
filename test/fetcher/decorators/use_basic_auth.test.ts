@@ -1,4 +1,4 @@
-import type { WebServerable } from '../../deps/x/precise.ts'
+import type { WebServerable } from '../../../deps/test/x/precise.ts'
 import {
   afterEach,
   beforeAll,
@@ -7,10 +7,10 @@ import {
   expect,
   it,
   run,
-} from '../../deps/x/tincan.ts'
+} from '../../../deps/test/x/tincan.ts'
+import { useBasicAuth } from '../../../lib/fetcher/decorators/use_basic_auth.ts'
 import { FakeWebServer } from '../../fake_web_server.ts'
 import { toConnectableHostname } from '../../utils/helper.ts'
-import { withBearer } from '../../../src/fetcher/decorators/with_bearer.ts'
 
 describe('fetcher decorators', () => {
   let fakeWebServer: WebServerable
@@ -31,27 +31,29 @@ describe('fetcher decorators', () => {
     }
     await fakeWebServer.stop()
   })
-  describe('withBearer', () => {
-    it('should return an object given valid bearer', async () => {
-      const fetcher = withBearer()
-      response = await fetcher.fetch(`${baseURL}/bearer`, {
-        token: 'mybearertoken',
+  describe('withBasicAuth', () => {
+    it('should return an object given valid basic auth credentials', async () => {
+      const fetcher = useBasicAuth()
+      response = await fetcher.fetch(`${baseURL}/basicauth`, {
+        username: 'john',
+        password: 'password',
       })
       expect(response.ok).toBe(true)
       const data = await response.json()
       expect(data).toEqual({ foo: 'bar' })
     })
-    it('should throw an error given no bearer', async () => {
-      const fetcher = withBearer()
-      response = await fetcher.fetch(`${baseURL}/bearer`)
+    it('should throw an error given no basic auth credentials', async () => {
+      const fetcher = useBasicAuth()
+      response = await fetcher.fetch(`${baseURL}/basicauth`)
       expect(response.ok).toBe(false)
       expect(response.status).toBe(401)
       expect(response.statusText).toEqual('Unauthorized')
     })
-    it('should throw an error given not valid bearer', async () => {
-      const fetcher = withBearer()
-      response = await fetcher.fetch(`${baseURL}/bearer`, {
-        token: 'badtoken',
+    it('should throw an error given not valid basic auth credentials', async () => {
+      const fetcher = useBasicAuth()
+      response = await fetcher.fetch(`${baseURL}/basicauth`, {
+        username: 'bill',
+        password: 'badpassword',
       })
       expect(response.ok).toBe(false)
       expect(response.status).toBe(401)

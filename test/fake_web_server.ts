@@ -1,8 +1,10 @@
-import { Level, Logger } from './deps/x/optic.ts'
-import { WebServer } from './deps/x/precise.ts'
+import { Level, Logger } from '../deps/test/x/optic.ts'
+import { WebServer } from '../deps/test/x/precise.ts'
 import { decode } from '../deps/std/encoding.ts'
 
 export class FakeWebServer extends WebServer {
+  #timer: undefined | number
+
   constructor(port = 0) {
     super({
       notFoundHandler: (req) =>
@@ -19,12 +21,17 @@ export class FakeWebServer extends WebServer {
         '/error/text',
         () => new Response('This is a text', { status: 500 }),
       )
-      .get('/timeout/:duration', (req) =>
-        new Promise((resolve) => {
-          setTimeout(() => {
-            resolve({ foo: 'bar' })
-          }, Number(req.params?.duration))
-        }))
+      .get(
+        '/timeout/:duration',
+        (req) => {
+          const timeout = Number(req.params?.duration)
+          return new Promise((resolve) => {
+            this.#timer = setTimeout(() => {
+              resolve({ foo: 'bar' })
+            }, timeout)
+          })
+        },
+      )
       .get(
         '/query',
         (req) => Object.fromEntries(new URL(req.url).searchParams),
@@ -64,5 +71,12 @@ export class FakeWebServer extends WebServer {
         return { foo: 'bar' }
       })
       .post('/json', (req) => req.json())
+  }
+
+  stop() {
+    if (typeof this.#timer !== 'undefined') {
+      clearTimeout(this.#timer)
+    }
+    return super.stop()
   }
 }

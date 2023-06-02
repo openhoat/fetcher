@@ -1,4 +1,4 @@
-import type { WebServerable } from '../../deps/x/precise.ts'
+import type { WebServerable } from '../../../deps/test/x/precise.ts'
 import {
   afterEach,
   beforeAll,
@@ -7,8 +7,8 @@ import {
   expect,
   it,
   run,
-} from '../../deps/x/tincan.ts'
-import { withBaseURL } from '../../../src/fetcher/decorators/with_base_url.ts'
+} from '../../../deps/test/x/tincan.ts'
+import { useBaseURL } from '../../../lib/fetcher/decorators/use_base_url.ts'
 import { FakeWebServer } from '../../fake_web_server.ts'
 import { toConnectableHostname } from '../../utils/helper.ts'
 
@@ -29,7 +29,7 @@ describe('fetcher decorators', () => {
   })
   describe('withBaseURL', () => {
     it('should return an object given requesting a json endpoint with a base URL', async () => {
-      const fetcher = withBaseURL()
+      const fetcher = useBaseURL()
       const response = await fetcher.fetch(
         '/',
         { baseURL },

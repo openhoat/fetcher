@@ -1,5 +1,5 @@
-import { describe, expect, it, run } from '../deps/x/tincan.ts'
-import { toURL } from '../../src/utils/helper.ts'
+import { describe, expect, it, run } from '../../deps/test/x/tincan.ts'
+import { toURL } from '../../lib/utils/helper.ts'
 
 describe('helper', () => {
   describe('toURL', () => {
