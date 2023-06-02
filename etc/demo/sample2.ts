@@ -1,10 +1,10 @@
-import { withBaseURL, withJsonResponse } from '../../mod.ts'
+import { useBaseURL, useJsonResponse } from '../../mod.ts'
 
 const baseURL = 'https://dummyjson.com'
 const username = 'kminchelle'
 const password = '0lelplR'
 
-const fetcher = withJsonResponse(withBaseURL())
+const fetcher = useJsonResponse(useBaseURL())
 
 type Data = {
   id: number

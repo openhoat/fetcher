@@ -1,11 +1,11 @@
-import { decoratedFetcher } from '../../mod.ts'
+import { useAll } from '../../mod.ts'
 
 type Data = { name: string; username: string }
 
 const email = 'Lucio_Hettinger@annie.ca'
 
 const baseURL = 'https://jsonplaceholder.typicode.com'
-const fetcher = decoratedFetcher<Data[]>({ baseURL })
+const fetcher = useAll<Data[]>({ baseURL })
 try {
   console.log('Fetching /users from jsonplaceholder…')
   const data: Data[] = await fetcher.fetch(

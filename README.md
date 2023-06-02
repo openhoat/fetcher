@@ -7,22 +7,22 @@
 
 # Fetcher
 
-Decorators for a more friendly fetch.
+Decorators that makes fetch friendly.
 
 ## Getting started
 
-Thanks to provided decorators, use a fetch-like with extra features: baseURL,
-query params, timeout, json response…
+Use a fetch-like function with extra [features](#features), thanks to provided
+decorators.
 
 ```typescript
-import { decoratedFetcher } from 'https://deno.land/x/fetcher/mod.ts'
+import { useAll } from 'https://deno.land/x/fetcher/mod.ts'
 
 type Data = { name: string; username: string }
 
 const email = 'Lucio_Hettinger@annie.ca'
 
 const baseURL = 'https://jsonplaceholder.typicode.com'
-const fetcher = decoratedFetcher<Data[]>({ baseURL })
+const fetcher = useAll<Data[]>({ baseURL })
 try {
   console.log('Fetching /users from jsonplaceholder…')
   const data: Data[] = await fetcher.fetch(
@@ -39,19 +39,19 @@ try {
 
 ## Features
 
-- [x] [Base URL](https://deno.land/x/fetcher/mod.ts?s=withBaseURL)
-- [x] [Basic auth](https://deno.land/x/fetcher/mod.ts?s=withBasicAuth)
-- [x] [Bearer](https://deno.land/x/fetcher/mod.ts?s=withBearer)
-- [x] [Defaults](https://deno.land/x/fetcher/mod.ts?s=withDefaults)
-- [x] [Error handling](https://deno.land/x/fetcher/mod.ts?s=withErrorHandling)
-- [x] [JSON response & payload](https://deno.land/x/fetcher/mod.ts?s=withJsonResponse)
-- [x] [Query params](https://deno.land/x/fetcher/mod.ts?s=withQueryParams)
-- [x] [Timeout](https://deno.land/x/fetcher/mod.ts?s=withTimeout)
+- [x] [Base URL](https://deno.land/x/fetcher/mod.ts?s=useBaseURL)
+- [x] [Basic auth](https://deno.land/x/fetcher/mod.ts?s=useBasicAuth)
+- [x] [Bearer](https://deno.land/x/fetcher/mod.ts?s=useBearer)
+- [x] [Defaults](https://deno.land/x/fetcher/mod.ts?s=useDefaults)
+- [x] [Error handling](https://deno.land/x/fetcher/mod.ts?s=useErrorHandling)
+- [x] [JSON response & payload](https://deno.land/x/fetcher/mod.ts?s=useJsonResponse)
+- [x] [Query params](https://deno.land/x/fetcher/mod.ts?s=useQueryParams)
+- [x] [Timeout](https://deno.land/x/fetcher/mod.ts?s=useTimeout)
 
 ## Usecases
 
-The decoratedFetcher object is decorated with all the decorators, enabling all
-the features in one.
+`useAll()` returns a fetcher object decorated with all the decorators, enabling
+all the features in one.
 
 If you don't need all the features, feel free to customize your fetcher instance
 with the decorators you want.
@@ -62,15 +62,15 @@ Examples :
 
   ```typescript
   import {
-    withBaseURL,
-    withJsonResponse,
+    useBaseURL,
+    useJsonResponse,
   } from 'https://deno.land/x/fetcher/mod.ts'
 
   const baseURL = 'https://dummyjson.com'
   const username = 'kminchelle'
   const password = '0lelplR'
 
-  const fetcher = withJsonResponse(withBaseURL())
+  const fetcher = useJsonResponse(useBaseURL())
 
   type Data = {
     id: number
