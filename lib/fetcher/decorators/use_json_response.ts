@@ -14,7 +14,7 @@ export const JSON_MIME_TYPE = 'application/json'
 
 export type JsonOptions = { json?: JSONValue }
 
-export const withJsonResponse = <O extends RequestInit>(
+export const useJsonResponse = <O extends RequestInit>(
   fetcher?: ResponseFetcher<O & JsonOptions>,
 ): JsonFetcher<O & JsonOptions> => ({
   fetch: async <T>(url: FetchURL, options?: O & JsonOptions) => {

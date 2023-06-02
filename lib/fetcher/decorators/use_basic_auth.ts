@@ -6,7 +6,7 @@ export type BasicAuthOptions = {
   password?: string
 }
 
-export const withBasicAuth = <O extends RequestInit>(
+export const useBasicAuth = <O extends RequestInit>(
   fetcher?: ResponseFetcher<O>,
 ): ResponseFetcher<O & BasicAuthOptions> => ({
   fetch: (

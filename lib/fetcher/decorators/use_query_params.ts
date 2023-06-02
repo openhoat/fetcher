@@ -15,7 +15,7 @@ export const toQueryParamsURL = (url: FetchURL, query: QueryParams) => {
   return queryParamsURL
 }
 
-export const withQueryParams = <O extends RequestInit>(
+export const useQueryParams = <O extends RequestInit>(
   fetcher?: ResponseFetcher<O>,
 ): ResponseFetcher<O & QueryParamsOptions> => ({
   fetch: (

@@ -4,7 +4,7 @@ export type BearerOptions = {
   token?: string
 }
 
-export const withBearer = <O extends RequestInit>(
+export const useBearer = <O extends RequestInit>(
   fetcher?: ResponseFetcher<O>,
 ): ResponseFetcher<O & BearerOptions> => ({
   fetch: (

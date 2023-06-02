@@ -1,6 +1,6 @@
 import type { FetchURL, ResponseFetcher } from '../../types/fetcher.d.ts'
 
-export const withDefaults = <O extends RequestInit>(
+export const useDefaults = <O extends RequestInit>(
   defaultOptions?: O,
 ) =>
 (fetcher?: ResponseFetcher<O>): ResponseFetcher<O> => ({

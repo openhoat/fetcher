@@ -5,7 +5,7 @@ export type BaseURLOptions = {
   baseURL?: string
 }
 
-export const withBaseURL = <O extends RequestInit>(
+export const useBaseURL = <O extends RequestInit>(
   fetcher?: ResponseFetcher<O>,
 ): ResponseFetcher<O & BaseURLOptions> => ({
   fetch: (
