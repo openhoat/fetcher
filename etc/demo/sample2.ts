@@ -1,10 +1,20 @@
-import { useBaseURL, useJsonResponse } from '../../mod.ts'
+import type { BaseURLOptions, JsonFetcher, JsonOptions } from '../../mod.ts'
+import { Fetcher } from '../../mod.ts'
 
 const baseURL = 'https://dummyjson.com'
 const username = 'kminchelle'
 const password = '0lelplR'
 
-const fetcher = useJsonResponse(useBaseURL())
+const fetcher = Fetcher<
+  JsonFetcher<BaseURLOptions & JsonOptions & RequestInit>
+>(
+  { baseURL },
+  {
+    useBaseURL: true,
+    useDefaults: true,
+    useJson: true,
+  },
+)
 
 type Data = {
   id: number
@@ -18,7 +28,6 @@ type Data = {
 }
 
 const data = await fetcher.fetch<Data>('/auth/login', {
-  baseURL,
   method: 'POST',
   json: { username, password },
 })
