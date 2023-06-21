@@ -7,7 +7,7 @@
 
 # Fetcher
 
-Decorators that makes fetch friendly.
+Friendly fetch with full capabilities.
 
 ## Getting started
 
@@ -15,14 +15,14 @@ Use a fetch-like function with extra [features](#features), thanks to provided
 decorators.
 
 ```typescript
-import { useAll } from 'https://deno.land/x/fetcher/mod.ts'
+import { Fetcher } from 'https://deno.land/x/fetcher/mod.ts'
 
 type Data = { name: string; username: string }
 
 const email = 'Lucio_Hettinger@annie.ca'
 
 const baseURL = 'https://jsonplaceholder.typicode.com'
-const fetcher = useAll<Data[]>({ baseURL })
+const fetcher = Fetcher({ baseURL })
 try {
   console.log('Fetching /users from jsonplaceholder…')
   const data: Data[] = await fetcher.fetch(
@@ -50,27 +50,38 @@ try {
 
 ## Usecases
 
-`useAll()` returns a fetcher object decorated with all the decorators, enabling
+`Fetcher()` returns a fetcher object decorated with all the decorators, enabling
 all the features in one.
 
 If you don't need all the features, feel free to customize your fetcher instance
-with the decorators you want.
+with the decorators you want with `defaultOptions` and `config` arguments.
 
 Examples :
 
 - POST a JSON payload with a base URL
 
   ```typescript
-  import {
-    useBaseURL,
-    useJsonResponse,
+  import type {
+    BaseURLOptions,
+    JsonFetcher,
+    JsonOptions,
   } from 'https://deno.land/x/fetcher/mod.ts'
+  import { Fetcher } from 'https://deno.land/x/fetcher/mod.ts'
 
   const baseURL = 'https://dummyjson.com'
   const username = 'kminchelle'
   const password = '0lelplR'
 
-  const fetcher = useJsonResponse(useBaseURL())
+  const fetcher = Fetcher<
+    JsonFetcher<BaseURLOptions & JsonOptions & RequestInit>
+  >(
+    { baseURL },
+    {
+      useBaseURL: true,
+      useDefaults: true,
+      useJson: true,
+    },
+  )
 
   type Data = {
     id: number
@@ -84,7 +95,6 @@ Examples :
   }
 
   const data = await fetcher.fetch<Data>('/auth/login', {
-    baseURL,
     method: 'POST',
     json: { username, password },
   })
