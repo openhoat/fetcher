@@ -39,14 +39,47 @@ try {
 
 ## Features
 
-- [x] [Base URL](https://deno.land/x/fetcher/mod.ts?s=useBaseURL)
-- [x] [Basic auth](https://deno.land/x/fetcher/mod.ts?s=useBasicAuth)
-- [x] [Bearer](https://deno.land/x/fetcher/mod.ts?s=useBearer)
-- [x] [Defaults](https://deno.land/x/fetcher/mod.ts?s=useDefaults)
-- [x] [Error handling](https://deno.land/x/fetcher/mod.ts?s=useErrorHandling)
+- [x] [Base URL](https://deno.land/x/fetcher/mod.ts?s=useBaseURL) :
+  - add the ability to set a base URL and then use a simple relative value in
+    `url`, usefull when fetch is used multiple times to request the same base
+    URL (DRY).
+  - add
+    [`BaseURLOptions`](https://deno.land/x/fetcher@0.1.0/mod.ts?s=BaseURLOptions)
+    support to fetch options.
+- [x] [Basic auth](https://deno.land/x/fetcher/mod.ts?s=useBasicAuth) :
+  - add authentication ability based on Basic Auth credentials
+  - add
+    [`BasicAuthOptions`](https://deno.land/x/fetcher@0.1.0/mod.ts?s=BasicAuthOptions)
+    support to fetch options.
+- [x] [Bearer](https://deno.land/x/fetcher/mod.ts?s=useBearer) :
+  - add authentification ability based on a token in request header
+  - add
+    [`BearerOptions`](https://deno.land/x/fetcher@0.1.0/mod.ts?s=BearerOptions)
+    support to fetch options.
+- [x] [Defaults](https://deno.land/x/fetcher/mod.ts?s=useDefaults) :
+  - add ability to set default options at Fetcher creation.
+- [x] [Error handling](https://deno.land/x/fetcher/mod.ts?s=useErrorHandling) :
+  - add error throwing abilitty when a response send an HTTP error
+  - add
+    [`ErrorHandlingOptions`](https://deno.land/x/fetcher@0.1.0/mod.ts?s=ErrorHandlingOptions)
+    support to fetch options.
 - [x] [JSON response & payload](https://deno.land/x/fetcher/mod.ts?s=useJsonResponse)
-- [x] [Query params](https://deno.land/x/fetcher/mod.ts?s=useQueryParams)
-- [x] [Timeout](https://deno.land/x/fetcher/mod.ts?s=useTimeout)
+      :
+  - add support for JSON response and JSON payload
+  - return the response body object (JSON data) instead of a `Response`
+  - add [`JsonOptions`](https://deno.land/x/fetcher@0.1.0/mod.ts?s=JsonOptions)
+    support to fetch options.
+- [x] [Query params](https://deno.land/x/fetcher/mod.ts?s=useQueryParams) :
+  - add support for request query parameters as a plain object
+  - add
+    [`QueryParamsOptions`](https://deno.land/x/fetcher@0.1.0/mod.ts?s=QueryParamsOptions)
+    support to fetch options.
+- [x] [Timeout](https://deno.land/x/fetcher/mod.ts?s=useTimeout) :
+  - add a timeout feature, aborting the request whenever the server did not
+    respond until the specified duration
+  - add
+    [`TimeoutOptions`](https://deno.land/x/fetcher@0.1.0/mod.ts?s=TimeoutOptions)
+    support to fetch options.
 
 ## Usecases
 
