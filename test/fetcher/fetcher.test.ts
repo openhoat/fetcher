@@ -10,7 +10,7 @@ import {
 } from '../../deps/test/x/tincan.ts'
 import { FakeWebServer } from '../fake_web_server.ts'
 import { toConnectableHostname } from '../utils/helper.ts'
-import { useAll } from '../../lib/fetcher/use_all.ts'
+import { Fetcher } from '../../lib/fetcher/fetcher.ts'
 import { HttpError } from '../../deps/x/http_errors.ts'
 
 describe('fetcher', () => {
@@ -29,12 +29,12 @@ describe('fetcher', () => {
     await fakeWebServer.stop()
   })
   it('should return an object given requesting a json endpoint', async () => {
-    const fetcher = useAll()
+    const fetcher = Fetcher()
     const data = await fetcher.fetch(baseURL)
     expect(data).toEqual({ foo: 'bar' })
   })
   it('should return an object given requesting a json endpoint and baseURL', async () => {
-    const fetcher = useAll()
+    const fetcher = Fetcher()
     const data = await fetcher.fetch(
       '',
       { baseURL },
@@ -42,7 +42,7 @@ describe('fetcher', () => {
     expect(data).toEqual({ foo: 'bar' })
   })
   it('should return an object given valid basic auth credentials', async () => {
-    const fetcher = useAll()
+    const fetcher = Fetcher()
     const data = await fetcher.fetch('/basicauth', {
       baseURL,
       username: 'john',
@@ -51,7 +51,7 @@ describe('fetcher', () => {
     expect(data).toEqual({ foo: 'bar' })
   })
   it('should throw an error given requesting a not found resource', async () => {
-    const fetcher = useAll()
+    const fetcher = Fetcher()
     let error: Error | undefined
     try {
       await fetcher.fetch('/bad/resource/path', { baseURL })
@@ -65,7 +65,7 @@ describe('fetcher', () => {
     )
   })
   it('should return an object given query params', async () => {
-    const fetcher = useAll()
+    const fetcher = Fetcher()
     const data = await fetcher.fetch('/query', {
       baseURL,
       query: { foo: 'bar' },
@@ -73,7 +73,7 @@ describe('fetcher', () => {
     expect(data).toEqual({ foo: 'bar' })
   })
   it('should throw an error given requesting timedout', async () => {
-    const fetcher = useAll()
+    const fetcher = Fetcher()
     let error: Error | undefined
     try {
       await fetcher.fetch('/timeout/500', {
@@ -89,7 +89,7 @@ describe('fetcher', () => {
     )
   })
   it('should return headers given defaults', async () => {
-    const fetcher = useAll({
+    const fetcher = Fetcher({
       headers: {
         'x-custom-header': 'mycustomvalue',
       },
@@ -104,7 +104,7 @@ describe('fetcher', () => {
     expect(data).toEqual({ value: 'mycustomvalue' })
   })
   it('should return an object given valid bearer', async () => {
-    const fetcher = useAll()
+    const fetcher = Fetcher()
     const data = await fetcher.fetch<Record<string, string>>('/bearer', {
       baseURL,
       token: 'mybearertoken',
