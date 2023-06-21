@@ -1,10 +1,10 @@
-import type { FetchURL, ResponseFetcher } from '../../types/fetcher.d.ts'
+import type { ErrorHandlingOptions } from '../../types/fetcher/decorators/use_error_handling.d.ts'
+import type {
+  FetchURL,
+  ResponseFetcher,
+} from '../../types/fetcher/fetcher.d.ts'
 import { isJsonResponse } from './use_json_response.ts'
 import { createError } from '../../../deps/x/http_errors.ts'
-
-export type ErrorHandlingOptions = {
-  abortController?: AbortController
-}
 
 export const useErrorHandling = <O extends RequestInit>(
   fetcher?: ResponseFetcher<O>,
@@ -24,7 +24,7 @@ export const useErrorHandling = <O extends RequestInit>(
         & O
         & ErrorHandlingOptions,
     )
-    if (!response.ok) {
+    if (response.status >= 400) {
       try {
         const body = isJsonResponse(response)
           ? await response.json()

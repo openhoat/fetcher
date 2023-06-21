@@ -1,10 +1,9 @@
-import type { FetchURL, ResponseFetcher } from '../../types/fetcher.d.ts'
-import { ErrorHandlingOptions } from './use_error_handling.ts'
-
-export type TimeoutOptions = {
-  timeout?: number
-  abortController?: AbortController
-}
+import type { TimeoutOptions } from '../../types/fetcher/decorators/use_timeout.d.ts'
+import type {
+  FetchURL,
+  ResponseFetcher,
+} from '../../types/fetcher/fetcher.d.ts'
+import type { ErrorHandlingOptions } from '../../types/fetcher/decorators/use_error_handling.d.ts'
 
 export const DEFAULT_TIMEOUT = 5000
 

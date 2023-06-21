@@ -1,4 +1,4 @@
-import { FetchURL } from '../types/fetcher.d.ts'
+import { FetchURL } from '../types/fetcher/fetcher.d.ts'
 
 export const isRequest = (url: FetchURL): url is Request =>
   url instanceof Request

@@ -1,4 +1,7 @@
-import type { FetchURL, ResponseFetcher } from '../../types/fetcher.d.ts'
+import type {
+  FetchURL,
+  ResponseFetcher,
+} from '../../types/fetcher/fetcher.d.ts'
 
 export const useDefaults = <O extends RequestInit>(
   defaultOptions?: O,
@@ -8,9 +11,12 @@ export const useDefaults = <O extends RequestInit>(
     url: FetchURL,
     options?: O,
   ) => {
-    const headers = options
-      ? { ...defaultOptions?.headers, ...options?.headers }
-      : defaultOptions?.headers
+    const headers = new Headers(defaultOptions?.headers)
+    if (options?.headers) {
+      new Headers(options.headers).forEach((value, key) => {
+        headers.append(key, value)
+      })
+    }
     const finalOptions = {
       ...defaultOptions,
       ...options,

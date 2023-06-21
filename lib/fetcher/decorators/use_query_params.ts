@@ -1,11 +1,12 @@
-import type { FetchURL, ResponseFetcher } from '../../types/fetcher.d.ts'
+import type {
+  QueryParams,
+  QueryParamsOptions,
+} from '../../types/fetcher/decorators/use_query_params.d.ts'
+import type {
+  FetchURL,
+  ResponseFetcher,
+} from '../../types/fetcher/fetcher.d.ts'
 import { toURL } from '../../utils/helper.ts'
-
-export type QueryParams = Record<string, string>
-
-export type QueryParamsOptions = {
-  query?: QueryParams
-}
 
 export const toQueryParamsURL = (url: FetchURL, query: QueryParams) => {
   const queryParamsURL = toURL(url)

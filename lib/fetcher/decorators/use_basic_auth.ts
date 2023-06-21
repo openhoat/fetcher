@@ -1,10 +1,9 @@
-import type { FetchURL, ResponseFetcher } from '../../types/fetcher.d.ts'
+import type { BasicAuthOptions } from '../../types/fetcher/decorators/use_basic_auth.d.ts'
+import type {
+  FetchURL,
+  ResponseFetcher,
+} from '../../types/fetcher/fetcher.d.ts'
 import { encode } from '../../../deps/std/encoding.ts'
-
-export type BasicAuthOptions = {
-  username?: string
-  password?: string
-}
 
 export const useBasicAuth = <O extends RequestInit>(
   fetcher?: ResponseFetcher<O>,
@@ -13,18 +12,15 @@ export const useBasicAuth = <O extends RequestInit>(
     url: FetchURL,
     options?: O & BasicAuthOptions,
   ) => {
-    const headers = options?.headers
-    const username = options?.username
-    const password = options?.password ?? ''
+    const headers = new Headers(options?.headers)
+    const { username, password = '', ...optionsWoCredentials } = options || {}
     const basicAuthValue = username && encode(`${username}:${password}`)
+    if (basicAuthValue) {
+      headers.set('Authorization', `Basic ${basicAuthValue}`)
+    }
     return (fetcher?.fetch ?? fetch)(url, {
-      ...options,
-      headers: basicAuthValue
-        ? {
-          ...headers,
-          'Authorization': `Basic ${basicAuthValue}`,
-        }
-        : headers,
+      ...optionsWoCredentials,
+      headers,
     } as O)
   },
 })
