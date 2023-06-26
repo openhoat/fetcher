@@ -8,9 +8,9 @@ import {
   it,
   run,
 } from '../../../deps/test/x/tincan.ts'
-import { useJsonResponse } from '../../../lib/fetcher/decorators/use_json_response.ts'
+import { withFetcherJsonResponse } from '../../../lib/fetcher/decorators/with_fetcher_json_response.ts'
 import { FakeWebServer } from '../../fake_web_server.ts'
-import { toConnectableHostname } from '../../utils/helper.ts'
+import { toConnectableHostname } from '../../utils/test_helper.ts'
 
 describe('fetcher decorators', () => {
   let fakeWebServer: WebServerable
@@ -27,14 +27,14 @@ describe('fetcher decorators', () => {
   afterEach(async () => {
     await fakeWebServer.stop()
   })
-  describe('withJsonResponse', () => {
+  describe('withFetcherJsonResponse', () => {
     it('should return an object given requesting a json endpoint', async () => {
-      const fetcher = useJsonResponse()
+      const fetcher = withFetcherJsonResponse()
       const data = await fetcher.fetch(`${baseURL}/`)
       expect(data).toEqual({ foo: 'bar' })
     })
     it('should throw an error given requesting a not json endpoint', async () => {
-      const fetcher = useJsonResponse()
+      const fetcher = withFetcherJsonResponse()
       let error: Error | undefined
       try {
         await fetcher.fetch(`${baseURL}/text`)
@@ -45,7 +45,7 @@ describe('fetcher decorators', () => {
       expect(error?.message).toEqual('Response is not JSON')
     })
     it('should post a json payload', async () => {
-      const fetcher = useJsonResponse()
+      const fetcher = withFetcherJsonResponse()
       const data = await fetcher.fetch(`${baseURL}/json`, {
         method: 'POST',
         json: { foo: 'bar' },

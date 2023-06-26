@@ -8,9 +8,9 @@ import {
   it,
   run,
 } from '../../../deps/test/x/tincan.ts'
-import { useQueryParams } from '../../../lib/fetcher/decorators/use_query_params.ts'
+import { withFetcherBaseURL } from '../../../lib/fetcher/decorators/with_fetcher_base_url.ts'
 import { FakeWebServer } from '../../fake_web_server.ts'
-import { toConnectableHostname } from '../../utils/helper.ts'
+import { toConnectableHostname } from '../../utils/test_helper.ts'
 
 describe('fetcher decorators', () => {
   let fakeWebServer: WebServerable
@@ -27,19 +27,13 @@ describe('fetcher decorators', () => {
   afterEach(async () => {
     await fakeWebServer.stop()
   })
-  describe('withQueryParams', () => {
-    it('should return an empty object given no query param', async () => {
-      const fetcher = useQueryParams()
-      const response: Response = await fetcher.fetch(`${baseURL}/query`)
-      expect(response.ok).toBe(true)
-      const data = await response.json()
-      expect(data).toEqual({})
-    })
-    it('should return an object given query params', async () => {
-      const fetcher = useQueryParams()
-      const response: Response = await fetcher.fetch(`${baseURL}/query`, {
-        query: { foo: 'bar' },
-      })
+  describe('withFetcherBaseURL', () => {
+    it('should return an object given requesting a json endpoint with a base URL', async () => {
+      const fetcher = withFetcherBaseURL()
+      const response = await fetcher.fetch(
+        '/',
+        { baseURL },
+      )
       expect(response.ok).toBe(true)
       const data = await response.json()
       expect(data).toEqual({ foo: 'bar' })

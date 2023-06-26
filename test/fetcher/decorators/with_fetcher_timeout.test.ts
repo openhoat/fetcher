@@ -8,9 +8,9 @@ import {
   it,
   run,
 } from '../../../deps/test/x/tincan.ts'
-import { useTimeout } from '../../../lib/fetcher/decorators/use_timeout.ts'
+import { withFetcherTimeout } from '../../../lib/fetcher/decorators/with_fetcher_timeout.ts'
 import { FakeWebServer } from '../../fake_web_server.ts'
-import { toConnectableHostname } from '../../utils/helper.ts'
+import { toConnectableHostname } from '../../utils/test_helper.ts'
 
 describe('fetcher decorators', () => {
   let fakeWebServer: WebServerable
@@ -27,16 +27,16 @@ describe('fetcher decorators', () => {
   afterEach(async () => {
     await fakeWebServer.stop()
   })
-  describe('withTimeout', () => {
+  describe('withFetcherTimeout', () => {
     it('should return an object given default timeout', async () => {
-      const fetcher = useTimeout()
+      const fetcher = withFetcherTimeout()
       const response: Response = await fetcher.fetch(`${baseURL}/timeout/500`)
       expect(response.ok).toBe(true)
       const data = await response.json()
       expect(data).toEqual({ foo: 'bar' })
     })
     it('should return an object given a timeout of 1000ms', async () => {
-      const fetcher = useTimeout()
+      const fetcher = withFetcherTimeout()
       const response: Response = await fetcher.fetch(`${baseURL}/timeout/500`, {
         timeout: 1000,
       })
@@ -45,7 +45,7 @@ describe('fetcher decorators', () => {
       expect(data).toEqual({ foo: 'bar' })
     })
     it('should throw an error given requesting timedout', async () => {
-      const fetcher = useTimeout()
+      const fetcher = withFetcherTimeout()
       let error: Error | undefined
       try {
         await fetcher.fetch(`${baseURL}/timeout/500`, { timeout: 200 })

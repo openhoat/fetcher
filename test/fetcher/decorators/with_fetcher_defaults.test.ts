@@ -8,9 +8,9 @@ import {
   it,
   run,
 } from '../../../deps/test/x/tincan.ts'
-import { useBaseURL } from '../../../lib/fetcher/decorators/use_base_url.ts'
 import { FakeWebServer } from '../../fake_web_server.ts'
-import { toConnectableHostname } from '../../utils/helper.ts'
+import { toConnectableHostname } from '../../utils/test_helper.ts'
+import { withFetcherDefaults } from '../../../lib/fetcher/decorators/with_fetcher_defaults.ts'
 
 describe('fetcher decorators', () => {
   let fakeWebServer: WebServerable
@@ -27,16 +27,17 @@ describe('fetcher decorators', () => {
   afterEach(async () => {
     await fakeWebServer.stop()
   })
-  describe('withBaseURL', () => {
-    it('should return an object given requesting a json endpoint with a base URL', async () => {
-      const fetcher = useBaseURL()
-      const response = await fetcher.fetch(
-        '/',
-        { baseURL },
-      )
+  describe('withFetcherDefaults', () => {
+    it('should return headers given defaults', async () => {
+      const fetcher = withFetcherDefaults({
+        headers: {
+          'x-custom-header': 'mycustomvalue',
+        },
+      })()
+      const response = await fetcher.fetch(`${baseURL}/custom-header`)
       expect(response.ok).toBe(true)
       const data = await response.json()
-      expect(data).toEqual({ foo: 'bar' })
+      expect(data).toEqual({ value: 'mycustomvalue' })
     })
   })
 })

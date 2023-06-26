@@ -8,9 +8,9 @@ import {
   it,
   run,
 } from '../../../deps/test/x/tincan.ts'
-import { useBasicAuth } from '../../../lib/fetcher/decorators/use_basic_auth.ts'
 import { FakeWebServer } from '../../fake_web_server.ts'
-import { toConnectableHostname } from '../../utils/helper.ts'
+import { toConnectableHostname } from '../../utils/test_helper.ts'
+import { withFetcherBearer } from '../../../lib/fetcher/decorators/with_fetcher_bearer.ts'
 
 describe('fetcher decorators', () => {
   let fakeWebServer: WebServerable
@@ -31,29 +31,27 @@ describe('fetcher decorators', () => {
     }
     await fakeWebServer.stop()
   })
-  describe('withBasicAuth', () => {
-    it('should return an object given valid basic auth credentials', async () => {
-      const fetcher = useBasicAuth()
-      response = await fetcher.fetch(`${baseURL}/basicauth`, {
-        username: 'john',
-        password: 'password',
+  describe('withFetcherBearer', () => {
+    it('should return an object given valid bearer', async () => {
+      const fetcher = withFetcherBearer()
+      response = await fetcher.fetch(`${baseURL}/bearer`, {
+        token: 'mybearertoken',
       })
       expect(response.ok).toBe(true)
       const data = await response.json()
       expect(data).toEqual({ foo: 'bar' })
     })
-    it('should throw an error given no basic auth credentials', async () => {
-      const fetcher = useBasicAuth()
-      response = await fetcher.fetch(`${baseURL}/basicauth`)
+    it('should throw an error given no bearer', async () => {
+      const fetcher = withFetcherBearer()
+      response = await fetcher.fetch(`${baseURL}/bearer`)
       expect(response.ok).toBe(false)
       expect(response.status).toBe(401)
       expect(response.statusText).toEqual('Unauthorized')
     })
-    it('should throw an error given not valid basic auth credentials', async () => {
-      const fetcher = useBasicAuth()
-      response = await fetcher.fetch(`${baseURL}/basicauth`, {
-        username: 'bill',
-        password: 'badpassword',
+    it('should throw an error given not valid bearer', async () => {
+      const fetcher = withFetcherBearer()
+      response = await fetcher.fetch(`${baseURL}/bearer`, {
+        token: 'badtoken',
       })
       expect(response.ok).toBe(false)
       expect(response.status).toBe(401)

@@ -9,9 +9,9 @@ import {
   run,
 } from '../../../deps/test/x/tincan.ts'
 import { HttpError } from '../../../deps/x/http_errors.ts'
-import { useErrorHandling } from '../../../lib/fetcher/decorators/use_error_handling.ts'
+import { withFetcherErrorHandling } from '../../../lib/fetcher/decorators/with_fetcher_error_handling.ts'
 import { FakeWebServer } from '../../fake_web_server.ts'
-import { toConnectableHostname } from '../../utils/helper.ts'
+import { toConnectableHostname } from '../../utils/test_helper.ts'
 
 describe('fetcher decorators', () => {
   let fakeWebServer: WebServerable
@@ -28,15 +28,15 @@ describe('fetcher decorators', () => {
   afterEach(async () => {
     await fakeWebServer.stop()
   })
-  describe('withErrorHandling', () => {
+  describe('withFetcherErrorHandling', () => {
     it('should return an object given requesting a json endpoint', async () => {
-      const fetcher = useErrorHandling()
+      const fetcher = withFetcherErrorHandling()
       const response: Response = await fetcher.fetch(`${baseURL}/`)
       const data = await response.json()
       expect(data).toEqual({ foo: 'bar' })
     })
     it('should throw an error given requesting a not found resource', async () => {
-      const fetcher = useErrorHandling()
+      const fetcher = withFetcherErrorHandling()
       let error: Error | undefined
       try {
         await fetcher.fetch(`${baseURL}/bad/resource/path`)
@@ -50,7 +50,7 @@ describe('fetcher decorators', () => {
       )
     })
     it('should throw an error given an internal error with text content', async () => {
-      const fetcher = useErrorHandling()
+      const fetcher = withFetcherErrorHandling()
       let error: Error | undefined
       try {
         await fetcher.fetch(`${baseURL}/error/text`)
