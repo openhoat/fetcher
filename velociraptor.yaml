@@ -30,15 +30,9 @@ scripts:
     desc: Open the tests coverage HTML report.
     cmd:
       - .deno/bin/dpx opener dist/coverage/html/index.html
-  'demo:sample1':
+  'demo:sample':
     desc: Run sample1 demo script.
-    cmd: deno run --allow-net etc/demo/sample1.ts
-  'demo:sample2':
-    desc: Run sample2 demo script.
-    cmd: deno run --allow-net etc/demo/sample2.ts
-  'demo:sample3':
-    desc: Run sample3 demo script.
-    cmd: deno run --allow-net etc/demo/sample3.ts
+    cmd: bin/demo
   "deps:update":
     desc: Update the Deno dependencies.
     cmd: .deno/bin/udd $(find . \( -path "./demo/*" -or -path "./lib/*" \) -path "*/deps/*" -type f -name "*.ts")
@@ -132,8 +126,8 @@ scripts:
       - |
         VERSION=$((cat <<END
         import version from './version.json' assert { type: 'json' }
-        const [ major, minor, patch] = version.split('.')
-        const newVersion = [ Number(major) + 1, minor, patch ].join('.')
+        const [ major ] = version.split('.')
+        const newVersion = [ Number(major) + 1, '0', '0' ].join('.')
         console.log(['', newVersion, ''].join('"'))
         END
         ) | deno run -); echo $VERSION > ./version.json
@@ -144,8 +138,8 @@ scripts:
       - |
         VERSION=$((cat <<END
         import version from './version.json' assert { type: 'json' }
-        const [ major, minor, patch] = version.split('.')
-        const newVersion = [ major, Number(minor) + 1, patch ].join('.')
+        const [ major, minor ] = version.split('.')
+        const newVersion = [ major, Number(minor) + 1, '0' ].join('.')
         console.log(['', newVersion, ''].join('"'))
         END
         ) | deno run -); echo $VERSION > ./version.json
