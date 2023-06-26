@@ -6,13 +6,13 @@ const username = 'kminchelle'
 const password = '0lelplR'
 
 const fetcher = Fetcher<
-  JsonFetcher<BaseURLOptions & JsonOptions & RequestInit>
+  JsonFetcher<RequestInit & BaseURLOptions & JsonOptions>
 >(
   { baseURL },
   {
-    useBaseURL: true,
-    useDefaults: true,
-    useJson: true,
+    withBaseURL: true,
+    withDefaults: true,
+    withJson: true,
   },
 )
 
