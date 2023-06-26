@@ -7,7 +7,7 @@ import type { ErrorHandlingOptions } from '../../types/fetcher/decorators/use_er
 
 export const DEFAULT_TIMEOUT = 5000
 
-export const useTimeout = <O extends RequestInit>(
+export const withFetcherTimeout = <O extends RequestInit>(
   fetcher?: ResponseFetcher<O>,
 ): ResponseFetcher<O & TimeoutOptions> => ({
   fetch: async (

@@ -4,15 +4,11 @@ import type {
   JsonFetcher,
   ResponseFetcher,
 } from '../../types/fetcher/fetcher.d.ts'
-
-export const isJsonResponse = (response: Response) =>
-  response.headers.get('Content-Type')?.includes(
-    'application/json',
-  )
+import { isJsonResponse } from '../../utils/helper.ts'
 
 export const JSON_MIME_TYPE = 'application/json'
 
-export const useJsonResponse = <O extends RequestInit>(
+export const withFetcherJsonResponse = <O extends RequestInit>(
   fetcher?: ResponseFetcher<O & JsonOptions>,
 ): JsonFetcher<O & JsonOptions> => ({
   fetch: async <T>(url: FetchURL, options?: O & JsonOptions) => {

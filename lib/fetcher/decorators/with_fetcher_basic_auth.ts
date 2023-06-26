@@ -5,7 +5,7 @@ import type {
 } from '../../types/fetcher/fetcher.d.ts'
 import { encode } from '../../../deps/std/encoding.ts'
 
-export const useBasicAuth = <O extends RequestInit>(
+export const withFetcherBasicAuth = <O extends RequestInit>(
   fetcher?: ResponseFetcher<O>,
 ): ResponseFetcher<O & BasicAuthOptions> => ({
   fetch: (

@@ -3,10 +3,10 @@ import type {
   FetchURL,
   ResponseFetcher,
 } from '../../types/fetcher/fetcher.d.ts'
-import { isJsonResponse } from './use_json_response.ts'
 import { createError } from '../../../deps/x/http_errors.ts'
+import { isJsonResponse } from '../../utils/helper.ts'
 
-export const useErrorHandling = <O extends RequestInit>(
+export const withFetcherErrorHandling = <O extends RequestInit>(
   fetcher?: ResponseFetcher<O>,
 ): ResponseFetcher<O & ErrorHandlingOptions> => ({
   fetch: async (

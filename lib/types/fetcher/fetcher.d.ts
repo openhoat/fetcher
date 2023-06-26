@@ -27,15 +27,15 @@ export type JsonFetcher<O extends RequestInit> = {
 }
 
 export type FetcherConfig = {
-  useAll?: boolean
-  useJson?: boolean
-  useDefaults?: boolean
-  useBaseURL?: boolean
-  useBearer?: boolean
-  useBasicAuth?: boolean
-  useQueryParams?: boolean
-  useTimeout?: boolean
-  useErrorHandling?: boolean
+  withAll?: boolean
+  withJson?: boolean
+  withDefaults?: boolean
+  withBaseURL?: boolean
+  withBearer?: boolean
+  withBasicAuth?: boolean
+  withQueryParams?: boolean
+  withTimeout?: boolean
+  withErrorHandling?: boolean
 }
 
 export type FectherAllOptions =

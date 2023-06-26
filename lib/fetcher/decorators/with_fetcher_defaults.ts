@@ -3,7 +3,7 @@ import type {
   ResponseFetcher,
 } from '../../types/fetcher/fetcher.d.ts'
 
-export const useDefaults = <O extends RequestInit>(
+export const withFetcherDefaults = <O extends RequestInit>(
   defaultOptions?: O,
 ) =>
 (fetcher?: ResponseFetcher<O>): ResponseFetcher<O> => ({

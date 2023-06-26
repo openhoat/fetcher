@@ -2,7 +2,7 @@ import type { BaseURLOptions } from '../../types/fetcher/decorators/use_base_url
 import type { ResponseFetcher } from '../../types/fetcher/fetcher.d.ts'
 import { toURL } from '../../utils/helper.ts'
 
-export const useBaseURL = <O extends RequestInit>(
+export const withFetcherBaseURL = <O extends RequestInit>(
   fetcher?: ResponseFetcher<O>,
 ): ResponseFetcher<O & BaseURLOptions> => ({
   fetch: (
